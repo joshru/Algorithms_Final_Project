@@ -38,6 +38,7 @@ public class tcss343 {
 
         System.out.println(Arrays.deepToString(arr));
         dynamic(arr);
+        brute(arr);
 //        generateFile(5);
 //        generateFile(100);
 //        generateFile(200);
