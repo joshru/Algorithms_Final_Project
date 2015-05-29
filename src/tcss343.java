@@ -1,9 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * TCSS 343 Final Project
@@ -34,16 +32,47 @@ public class tcss343 {
             scn.nextLine();
         }
 
-        System.out.println(Arrays.deepToString(arr));
-        dynamic(arr);
+        //System.out.println(Arrays.deepToString(arr));
+        brute(arr);
+        //dynamic(arr);
 //        generateFile(10);
     }
 
     /**
-     * Brute force solution for finding the cheapest path
+     * Brute force solution for finding the cheapest path.
      */
-    public static void brute() {
+    public static void brute(String[][] prices) {
+        final int nVal = prices.length;
+        int minVal = -1;
+        Set<Integer> minSet = new HashSet<>();
 
+        HashSet<Integer> startingSet = new HashSet<>();                         /* This set will hold 1 ..... n values. */
+        for(int i = 1; i <= nVal; i++) {                                        /* Populates the starting set */
+            startingSet.add(i);
+        }
+
+        Set<Set<Integer>> setsOSets = powerSet(startingSet);                    /* Gets the set of sets. */
+
+        for(Set currSet : setsOSets) {
+            int pathSum = 0;                                                    /* Total cost for this path. */
+            ArrayList<Integer> setList = new ArrayList<>(currSet);
+
+            if(currSet.contains(1) && currSet.contains(nVal)) {                 /* If it contains 1 and n, get min value. */
+                for(int i = 0; i < currSet.size() - 1; i++) {                   /* i = Rx, i + 1 = Ry */
+                    int priceRow = setList.get(i) - 1;                          /* Get the row in the array of the path cost. */
+                    int priceCol = setList.get(i + 1) - 1;                      /* Get the col in the array of the path cost. */
+                    pathSum += Integer.parseInt(prices[priceRow][priceCol]);
+                }
+
+                if(pathSum < minVal || minVal == -1) {                          /* Assign minVal if pathSum is smaller. */
+                    minVal = pathSum;
+                    minSet = currSet;
+                }
+            }
+        }
+
+        /* Display the minimum set. */
+        System.out.println("Minimum path: " + minSet.toString() + ", Minimum cost: " + minVal);
     }
 
     /**
@@ -117,4 +146,34 @@ public class tcss343 {
         }
     }
 
+    /**
+     * Takes a set of integers, and returns a set of all power sets.
+     * @param theStartingSet the starting set to be expanded.
+     * @return the final set of subsets from theStartingSet.
+     */
+    public static Set<Set<Integer>> powerSet(Set<Integer> theStartingSet) {
+
+        Set<Set<Integer>> setsOSets = new HashSet<>();
+
+        if (theStartingSet.isEmpty()) {                                             /* BASE CASE: If the set is empty, return. */
+            setsOSets.add(new HashSet<Integer>());
+            return setsOSets;
+        }
+
+        List<Integer> list = new ArrayList<Integer>(theStartingSet);                /* Convert ti list for index access. */
+        Integer first = list.get(0);                                                /* Get the first value of the set. */
+        Set<Integer> rest = new HashSet<Integer>(list.subList(1, list.size()));     /* Get the rest of the set. */
+
+
+        for (Set<Integer> currentSet : powerSet(rest)) {                            /* For each set within sets. */
+
+            Set<Integer> newSet = new HashSet<Integer>();                           /* Create a new set to store the data. */
+            newSet.add(first);                                                      /* Add the first elements. */
+            newSet.addAll(currentSet);                                              /* Add the rest of the elements. */
+            setsOSets.add(newSet);                                                  /* Add the new set to our set of sets. */
+            setsOSets.add(currentSet);                                              /* Add the old set to our set of sets. */
+        }
+
+        return setsOSets;
+    }
 }
