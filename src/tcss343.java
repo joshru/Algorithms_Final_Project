@@ -34,9 +34,8 @@ public class tcss343 {
             scn.nextLine();
         }
 
-
-
         System.out.println(Arrays.deepToString(arr));
+        dynamic(arr);
 //        generateFile(10);
     }
 
@@ -57,8 +56,33 @@ public class tcss343 {
     /**
      * Dynamic programming solution for finding cheapest path
      */
-    public static void dynamic() {
+    public static void dynamic(String[][] prices) {
+        int cost[] = new int[SIZE];
+        cost[0] = 0;
+        int price = 0;
+        for (int i = 1; i < SIZE; i ++) {
 
+            if (isNumber(prices[i-1][i])) { price = Integer.parseInt(prices[i-1][i]); }
+            cost[i] = cost[i-1] + price;
+            for (int j = i - 2; j >= 1; j--) {
+                if (isNumber(prices[j][i])) { price = Integer.parseInt(prices[j][i]); }
+
+                if (cost[j] + price < cost[i]) {
+                    cost[i] = cost[j] + price;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(cost));
+
+    }
+
+    public static boolean isNumber(String test) {
+        try {
+            Integer.parseInt(test);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
     /**
