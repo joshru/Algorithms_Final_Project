@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -36,7 +37,12 @@ public class tcss343 {
 
         System.out.println(Arrays.deepToString(arr));
         dynamic(arr);
-//        generateFile(10);
+//        generateFile(5);
+//        generateFile(100);
+//        generateFile(200);
+//        generateFile(400);
+//        generateFile(600);
+//        generateFile(800);
     }
 
     /**
@@ -58,21 +64,55 @@ public class tcss343 {
      */
     public static void dynamic(String[][] prices) {
         int cost[] = new int[SIZE];
-        cost[0] = 0;
+        int rental[] = new int[SIZE];
         int price = 0;
+        int total = 0;
+
+        cost[0] = 0;
         for (int i = 1; i < SIZE; i ++) {
 
             if (isNumber(prices[i-1][i])) { price = Integer.parseInt(prices[i-1][i]); }
             cost[i] = cost[i-1] + price;
-            for (int j = i - 2; j >= 1; j--) {
-                if (isNumber(prices[j][i])) { price = Integer.parseInt(prices[j][i]); }
+            rental[i] = i-1;
 
+            for (int j = i - 1; j >= 1; j--) {
+
+                if (isNumber(prices[j][i])) { price = Integer.parseInt(prices[j][i]); }
                 if (cost[j] + price < cost[i]) {
                     cost[i] = cost[j] + price;
+                    rental[i] = j;
                 }
             }
         }
         System.out.println(Arrays.toString(cost));
+        System.out.println(Arrays.toString(rental));
+
+//        ArrayList<Integer> posts = new ArrayList<>(); //number of posts rented from
+        for (int i = 0; i < rental.length; i++) {
+            if (rental[i] != 1) {
+                System.out.println(rental[i]);
+                total += rental[i];
+
+            }
+        }
+
+//        /*recover*/
+//
+//        int temp = 0;
+//        for (int i = 1; i < posts.size(); i++) {
+////            if (rental[i] != 1) {
+////                if (isNumber(prices[rental[i-1]][rental[i]])) {
+////                    temp = Integer.parseInt(prices[rental[i-1]][rental[i]]);
+////                }
+//            if (isNumber(prices[posts.get(i-1)][posts.get(i)])) {
+//                temp = Integer.parseInt(prices[posts.get(i-1)][posts.get(i)]);
+//                System.out.println("Adding: (" + posts.get(i-1) + ", " + posts.get(i) + ")");
+//            }
+//            total += temp;
+////            }
+//        }
+
+        System.out.println("Total cost: " + total);
 
     }
 
@@ -99,22 +139,28 @@ public class tcss343 {
 
         for (int i = 0; i < theDim; i++) {
             for (int j = 0; j < theDim; j++) {
-                int increment =  r.nextInt(4);
+                int increment =  r.nextInt(8);
                 if (i == j) {
                     out.write("0\t");
                 } else if (i > j) {
                     out.write("NA\t");
                 } else {
-                    out.write(base + increment + "\t");
+                    base += increment;
+                    out.write(base + "\t");
                 }
             }
             out.newLine();
+            base = 2;
 
         }
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public class Node {
+
     }
 
 }
