@@ -24,7 +24,7 @@ public class tcss343 {
         File in = new File("sample_input.txt");
         Scanner scn = null;
         try {
-            scn = new Scanner(in).useDelimiter("\\t|\\n"); //delimiter will be tab OR newline
+            scn = new Scanner(in).useDelimiter("\\t|\\n|\\r"); //delimiter will be tab OR newline
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -36,9 +36,10 @@ public class tcss343 {
             scn.nextLine();
         }
 
-        System.out.println(Arrays.deepToString(arr));
-        dynamic(arr);
-        //brute(arr);
+        //System.out.println(Arrays.deepToString(arr));
+       // dynamic(arr);
+        brute(arr);
+        brandonDynamic(arr);
 //        generateFile(5);
 //        generateFile(100);
 //        generateFile(200);
@@ -63,13 +64,14 @@ public class tcss343 {
         Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                    /* Gets the set of sets. */
 
         for(Set<Integer> currSet : setsOSets) {
-            int pathSum = 0;                                                    /* Total cost for this path. */
+            Integer pathSum = 0;                                                    /* Total cost for this path. */
             ArrayList<Integer> setList = new ArrayList<>(currSet);
 
             if(currSet.contains(1) && currSet.contains(nVal)) {                 /* If it contains 1 and n, get min value. */
                 for(int i = 0; i < currSet.size() - 1; i++) {                   /* i = Rx, i + 1 = Ry */
                     int priceRow = setList.get(i) - 1;                          /* Get the row in the array of the path cost. */
                     int priceCol = setList.get(i + 1) - 1;                      /* Get the col in the array of the path cost. */
+                    System.out.println(prices[priceRow][priceCol]);
                     pathSum += Integer.parseInt(prices[priceRow][priceCol]);
                 }
 
@@ -147,6 +149,85 @@ public class tcss343 {
         System.out.println("Total cost: " + total);
 
     }
+
+    public static void brandonDynamic(String[][] prices) {
+        int n = prices[0].length;
+        Integer[][] solutionArr = new Integer[n][n];
+        List<Integer> winList = new ArrayList<>();
+        Set<Integer>  winSet = new HashSet<>();
+        List<String>  winStrings = new ArrayList<>();
+        winList.add(1);
+        winSet.add(1);
+
+        for (int i = 0 ; i < n; i++) {
+            if (isNumber(prices[0][i]))
+                solutionArr[0][i] = Integer.parseInt(prices[0][i]);
+        }
+        int winner = -1;
+        for (int i = 1; i < n; i++) {
+
+            for (int j = i; j < n; j++) {
+                int minValue = -1;
+
+                for (int k = i; k < j; k++) {
+                    if (solutionArr[i][k] + Integer.parseInt(prices[i][j]) < minValue
+                            || minValue == -1) {
+                        minValue = solutionArr[i][k] + Integer.parseInt(prices[i][j]);
+                        winner = k;
+                        winStrings.add("Left");
+
+                    }
+
+                }
+
+                for (int k = 0; k < i; k++) {
+                    if (isNumber(prices[k][j])) {
+
+                        if (solutionArr[k][j] < minValue || minValue == -1) {
+                            minValue = solutionArr[k][j];
+                            winner = j;
+                            winStrings.add("Up");
+                        }
+                    }
+
+                }
+
+
+                solutionArr[i][j] = minValue;
+                if (winner != -1) winList.add(winner);
+                winSet.add(winner + 1);
+                //this is where you would store path info
+
+            }
+
+        }
+
+
+        //print the shit
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
+                if (solutionArr[i][j] == null) System.out.print("-1\t");
+                else System.out.print(solutionArr[i][j] + "\t");
+
+            }
+            System.out.println();
+        }
+        System.out.printf("Winning indexes = %s\n", winList.toString());
+        System.out.printf("Winning strings = %s\n", winStrings.toString());
+        System.out.printf("Winning indexes = %s\n", winSet.toString());
+        //System.out.printf("%s\n", Arrays.deepToString(solutionArr));
+
+
+    }
+
+    /*public static boolean isNumeric(String str)
+    {
+        NumberFormat formatter = NumberFormat.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        formatter.parse(str, pos);
+        return str.length() == pos.getIndex();
+    }*/
 
     public static boolean isNumber(String test) {
         try {
