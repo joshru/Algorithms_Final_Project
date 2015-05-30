@@ -69,11 +69,14 @@ public class tcss343 {
 
         Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                 /* Gets the set of sets. */
 
+        System.out.println("Brute Force Algorithm");
         for(Set<Integer> currSet : setsOSets) {
             Integer pathSum = 0;                                                /* Total cost for this path. */
             ArrayList<Integer> setList = new ArrayList<>(currSet);
 
             if(currSet.contains(1) && currSet.contains(nVal)) {                 /* If it contains 1 and n, get min value. */
+                //TODO uncomment following line to view valid subsets.
+                //System.out.println(currSet);
                 for(int i = 0; i < currSet.size() - 1; i++) {                   /* i = Rx, i + 1 = Ry */
                     int priceRow = setList.get(i) - 1;                          /* Get the row in the array of the path cost. */
                     int priceCol = setList.get(i + 1) - 1;                      /* Get the col in the array of the path cost. */
@@ -88,7 +91,6 @@ public class tcss343 {
         }
 
         /* Display the minimum set. */
-        System.out.println("Brute Force Algorithm");
         System.out.println("Minimum path: " + minSet.toString() + ", Minimum cost: " + minVal);
         System.out.println();
     }
@@ -150,9 +152,11 @@ public class tcss343 {
             }
         }
 
-        System.out.println("Dynamic Programming Algorithm\nDynamic Array: ");
+        System.out.println("Dynamic Programming Algorithm");
 
+        //TODO Uncomment out for loop to view dynamic array
         //Print out the resulting solution array.
+        /*
         for (int i = 0; i < n; i++) {
 
             for (int j = 0; j < n; j++) {
@@ -162,6 +166,7 @@ public class tcss343 {
             }
             System.out.println();
         }
+        */
 
         System.out.println("Minimum path: " +recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
         System.out.println();
