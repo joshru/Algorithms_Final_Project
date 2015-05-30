@@ -17,6 +17,7 @@ public class tcss343 {
 
     public static final Random r = new Random();
     public static final int SIZE = 4;
+    public static int n;
 
     public static void main(String[] args) {
         String arr[][] = new String[SIZE][SIZE];
@@ -37,6 +38,8 @@ public class tcss343 {
             }
             scn.nextLine();
         }
+
+        n = arr[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
        // dynamic(arr);
@@ -98,8 +101,12 @@ public class tcss343 {
     /**
      * Divide and conquer solution for finding the cheapest pat
      */
-    public static void divide() {
+    public static int divide(int startVal, StringBuilder sb) {
 
+        if() {
+
+        }
+        return 0;
     }
 
     /**
