@@ -71,7 +71,6 @@ public class tcss343 {
                 for(int i = 0; i < currSet.size() - 1; i++) {                   /* i = Rx, i + 1 = Ry */
                     int priceRow = setList.get(i) - 1;                          /* Get the row in the array of the path cost. */
                     int priceCol = setList.get(i + 1) - 1;                      /* Get the col in the array of the path cost. */
-                    System.out.println(prices[priceRow][priceCol]);
                     pathSum += Integer.parseInt(prices[priceRow][priceCol]);
                 }
 
@@ -150,85 +149,120 @@ public class tcss343 {
 
     }
 
+    /**
+     * Obtains and prints the lowest possible cost of canoe-ing down the river.
+     * @param prices the array of prices at any particular stop.
+     */
     public static void brandonDynamic(String[][] prices) {
         int n = prices[0].length;
         Integer[][] solutionArr = new Integer[n][n];
-        List<Integer> winList = new ArrayList<>();
-        Set<Integer>  winSet = new HashSet<>();
-        List<String>  winStrings = new ArrayList<>();
-        winList.add(1);
-        winSet.add(1);
 
+        /* Fill in top row of solution array
+         * Will always be the same as the top row of the input
+         */
         for (int i = 0 ; i < n; i++) {
             if (isNumber(prices[0][i]))
                 solutionArr[0][i] = Integer.parseInt(prices[0][i]);
         }
-        int winner = -1;
-        for (int i = 1; i < n; i++) {
 
+        //Top to bottom
+        for (int i = 1; i < n; i++) {
+            //Left to right
             for (int j = i; j < n; j++) {
                 int minValue = -1;
 
+                //Find the minimum value of all values to the left of the current cell [i][j]
+                //added onto the current cell. That is, the most optimal previous value plus the price
+                //of renting a canoe in this particular column.
                 for (int k = i; k < j; k++) {
-                    if (solutionArr[i][k] + Integer.parseInt(prices[i][j]) < minValue
+                    if (solutionArr[i][k]
+                            + Integer.parseInt(prices[i][j]) < minValue
                             || minValue == -1) {
                         minValue = solutionArr[i][k] + Integer.parseInt(prices[i][j]);
-                        winner = k;
-                        winStrings.add("Left");
-
                     }
-
                 }
-
+                //find the minimum value of all cells above in the same column of the current cell
+                //if any of these values are less than the current minimum obtained from looking to the left,
+                //update the minimum to the value above as it is more optimal.
                 for (int k = 0; k < i; k++) {
                     if (isNumber(prices[k][j])) {
 
                         if (solutionArr[k][j] < minValue || minValue == -1) {
                             minValue = solutionArr[k][j];
-                            winner = j;
-                            winStrings.add("Up");
                         }
                     }
-
                 }
-
-
+                //Finally, update the current cell to the most optimal value obtained from the above loops.
                 solutionArr[i][j] = minValue;
-                if (winner != -1) winList.add(winner);
-                winSet.add(winner + 1);
-                //this is where you would store path info
-
             }
-
         }
 
-
-        //print the shit
+        //Print out the resulting solution array.
         for (int i = 0; i < n; i++) {
 
             for (int j = 0; j < n; j++) {
-                if (solutionArr[i][j] == null) System.out.print("-1\t");
+                if (solutionArr[i][j] == null) System.out.print("-1\t"); //replace nulls with -1's for readability.
                 else System.out.print(solutionArr[i][j] + "\t");
 
             }
             System.out.println();
         }
-        System.out.printf("Winning indexes = %s\n", winList.toString());
-        System.out.printf("Winning strings = %s\n", winStrings.toString());
-        System.out.printf("Winning indexes = %s\n", winSet.toString());
-        //System.out.printf("%s\n", Arrays.deepToString(solutionArr));
+        System.out.printf("Solution Set: %s\n", recover(solutionArr).toString());
 
 
     }
 
-    /*public static boolean isNumeric(String str)
-    {
-        NumberFormat formatter = NumberFormat.getInstance();
-        ParsePosition pos = new ParsePosition(0);
-        formatter.parse(str, pos);
-        return str.length() == pos.getIndex();
-    }*/
+    /**
+     * Recovers the optimal path from the solution array obtained from the
+     * dynamic programming approach.
+     *
+     * @param solutionArr the solution array
+     * @return a set of the winning indexes. (not zero based)
+     */
+    public static Set<Integer> recover(Integer[][] solutionArr) {
+        //fackin recover time bud
+        //algorithm:
+        //add first and last col # to solution set
 
+        //start in bottom right cell of solution array
+
+        //if cell above is equal to current cell
+        //    go up
+        //else
+        //    go left, record new row in solution
+        int n = solutionArr[0].length;
+        Set<Integer>  winSet = new HashSet<>();
+
+        winSet.add(1); winSet.add(n); //add first and last column to winning set
+        int row = n - 1, col = n - 1; //very last cell
+
+        //while we're still recovering the path
+        while (row > 0) {
+
+            int current = solutionArr[row][col];
+            int above   = solutionArr[row-1][col];
+
+            if (current == above) {
+                row--; //go up
+            } else {                 //optimal path comes from the left, add previous column to solution path
+                winSet.add(col);
+                col--; //go back one column and restart the loop
+
+            }
+
+
+        }
+        System.out.printf("Winning indexes = %s\n", winSet.toString());
+        return winSet;
+    }
+
+
+    /**
+     * Determines whether a position in our input array is a valid number or not.
+     * Possibly find a different method, this may not be the most efficient approach.
+     * @param test the potential number
+     * @return whether or not the input was a number.
+     */
     public static boolean isNumber(String test) {
         try {
             Integer.parseInt(test);
