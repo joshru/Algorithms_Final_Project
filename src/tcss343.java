@@ -51,7 +51,11 @@ public class tcss343 {
     }
 
     /**
-     * Brute force solution for finding the cheapest path.
+     * Obtains and prints the lowest possible cost of canoe-ing down the river,
+     * uses a brute force method of generating all the power sets and then choosing
+     * the optimal one.
+     * Assymptotic growth is roughly O(2^n)
+     * @param prices the array of prices at any particular stop.
      */
     public static void brute(String[][] prices) {
         final int nVal = prices.length;
@@ -63,10 +67,10 @@ public class tcss343 {
             startingSet.add(i);
         }
 
-        Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                    /* Gets the set of sets. */
+        Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                 /* Gets the set of sets. */
 
         for(Set<Integer> currSet : setsOSets) {
-            Integer pathSum = 0;                                                    /* Total cost for this path. */
+            Integer pathSum = 0;                                                /* Total cost for this path. */
             ArrayList<Integer> setList = new ArrayList<>(currSet);
 
             if(currSet.contains(1) && currSet.contains(nVal)) {                 /* If it contains 1 and n, get min value. */
@@ -84,7 +88,9 @@ public class tcss343 {
         }
 
         /* Display the minimum set. */
+        System.out.println("Brute Force Algorithm");
         System.out.println("Minimum path: " + minSet.toString() + ", Minimum cost: " + minVal);
+        System.out.println();
     }
 
     /**
@@ -95,64 +101,9 @@ public class tcss343 {
     }
 
     /**
-     * Dynamic programming solution for finding cheapest path
-     */
-    public static void dynamic(String[][] prices) {
-        int cost[] = new int[SIZE];
-        int rental[] = new int[SIZE];
-        int price = 0;
-        int total = 0;
-
-        cost[0] = 0;
-        for (int i = 1; i < SIZE; i ++) {
-
-            if (isNumber(prices[i-1][i])) { price = Integer.parseInt(prices[i-1][i]); }
-            cost[i] = cost[i-1] + price;
-            rental[i] = i-1;
-
-            for (int j = i - 1; j >= 1; j--) {
-
-                if (isNumber(prices[j][i])) { price = Integer.parseInt(prices[j][i]); }
-                if (cost[j] + price < cost[i]) {
-                    cost[i] = cost[j] + price;
-                    rental[i] = j;
-                }
-            }
-        }
-        System.out.println(Arrays.toString(cost));
-        System.out.println(Arrays.toString(rental));
-
-//        ArrayList<Integer> posts = new ArrayList<>(); //number of posts rented from
-        for (int i = 0; i < rental.length; i++) {
-            if (rental[i] != 1) {
-                System.out.println(rental[i]);
-                total += rental[i];
-
-            }
-        }
-
-//        /*recover*/
-//
-//        int temp = 0;
-//        for (int i = 1; i < posts.size(); i++) {
-////            if (rental[i] != 1) {
-////                if (isNumber(prices[rental[i-1]][rental[i]])) {
-////                    temp = Integer.parseInt(prices[rental[i-1]][rental[i]]);
-////                }
-//            if (isNumber(prices[posts.get(i-1)][posts.get(i)])) {
-//                temp = Integer.parseInt(prices[posts.get(i-1)][posts.get(i)]);
-//                System.out.println("Adding: (" + posts.get(i-1) + ", " + posts.get(i) + ")");
-//            }
-//            total += temp;
-////            }
-//        }
-
-        System.out.println("Total cost: " + total);
-
-    }
-
-    /**
-     * Obtains and prints the lowest possible cost of canoe-ing down the river.
+     * Obtains and prints the lowest possible cost of canoe-ing down the river,
+     * uses a dynamic programming algorithm.
+     * Assymptotic growth is roughly O(n^2)
      * @param prices the array of prices at any particular stop.
      */
     public static void brandonDynamic(String[][] prices) {
@@ -199,6 +150,8 @@ public class tcss343 {
             }
         }
 
+        System.out.println("Dynamic Programming Algorithm\nDynamic Array: ");
+
         //Print out the resulting solution array.
         for (int i = 0; i < n; i++) {
 
@@ -209,9 +162,9 @@ public class tcss343 {
             }
             System.out.println();
         }
-        System.out.printf("Solution Set: %s\n", recover(solutionArr).toString());
 
-
+        System.out.println("Minimum path: " +recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
+        System.out.println();
     }
 
     /**
@@ -264,8 +217,6 @@ public class tcss343 {
                 col = minIndex; //go back one column and restart the loop
 
             }
-
-
         }
       //  System.out.printf("Winning indexes = %s\n", winSet.toString());
         return winSet;
@@ -298,7 +249,6 @@ public class tcss343 {
         try {
             out = new BufferedWriter(new FileWriter(filename));
 
-
         for (int i = 0; i < theDim; i++) {
             for (int j = 0; j < theDim; j++) {
                 int increment =  r.nextInt(8);
@@ -323,6 +273,7 @@ public class tcss343 {
 
     /**
      * Takes a set of integers, and returns a set of all power sets.
+     * PowerSet references were taken from wiki and Stackoverflow.
      * @param theStartingSet the starting set to be expanded.
      * @return the final set of subsets from theStartingSet.
      */
@@ -335,12 +286,12 @@ public class tcss343 {
             return setsOSets;
         }
 
-        List<Integer> list = new ArrayList<Integer>(theStartingSet);                /* Convert ti list for index access. */
+        List<Integer> list = new ArrayList<Integer>(theStartingSet);                      /* Convert ti list for index access. */
         Integer first = list.get(0);                                                /* Get the first value of the set. */
         Set<Integer> rest = new HashSet<Integer>(list.subList(1, list.size()));           /* Get the rest of the set. */
 
 
-        for (Set<Integer> currentSet : getPowerSet(rest)) {                            /* For each set within sets. */
+        for (Set<Integer> currentSet : getPowerSet(rest)) {                         /* For each set within sets. */
 
             Set<Integer> newSet = new HashSet<Integer>();                                 /* Create a new set to store the data. */
             newSet.add(first);                                                      /* Add the first elements. */
