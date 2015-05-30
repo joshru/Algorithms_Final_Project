@@ -260,8 +260,8 @@ public class tcss343 {
 
                 }
 
-                winSet.add(i);
-                col = i; //go back one column and restart the loop
+                winSet.add(minIndex + 1);
+                col = minIndex; //go back one column and restart the loop
 
             }
 
