@@ -38,7 +38,7 @@ public class tcss343 {
 
         System.out.println(Arrays.deepToString(arr));
         dynamic(arr);
-        brute(arr);
+        //brute(arr);
 //        generateFile(5);
 //        generateFile(100);
 //        generateFile(200);
@@ -62,7 +62,7 @@ public class tcss343 {
 
         Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                    /* Gets the set of sets. */
 
-        for(Set currSet : setsOSets) {
+        for(Set<Integer> currSet : setsOSets) {
             int pathSum = 0;                                                    /* Total cost for this path. */
             ArrayList<Integer> setList = new ArrayList<>(currSet);
 
