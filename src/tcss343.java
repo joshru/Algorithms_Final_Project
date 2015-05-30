@@ -196,7 +196,7 @@ public class tcss343 {
      * @param theStartingSet the starting set to be expanded.
      * @return the final set of subsets from theStartingSet.
      */
-    public static Set<Set<Integer>> powerSet(Set<Integer> theStartingSet) {
+    public static Set<Set<Integer>> getPowerSet(Set<Integer> theStartingSet) {
 
         Set<Set<Integer>> setsOSets = new HashSet<>();
 
@@ -207,12 +207,12 @@ public class tcss343 {
 
         List<Integer> list = new ArrayList<Integer>(theStartingSet);                /* Convert ti list for index access. */
         Integer first = list.get(0);                                                /* Get the first value of the set. */
-        Set<Integer> rest = new HashSet<Integer>(list.subList(1, list.size()));     /* Get the rest of the set. */
+        Set<Integer> rest = new HashSet<Integer>(list.subList(1, list.size()));           /* Get the rest of the set. */
 
 
-        for (Set<Integer> currentSet : powerSet(rest)) {                            /* For each set within sets. */
+        for (Set<Integer> currentSet : getPowerSet(rest)) {                            /* For each set within sets. */
 
-            Set<Integer> newSet = new HashSet<Integer>();                           /* Create a new set to store the data. */
+            Set<Integer> newSet = new HashSet<Integer>();                                 /* Create a new set to store the data. */
             newSet.add(first);                                                      /* Add the first elements. */
             newSet.addAll(currentSet);                                              /* Add the rest of the elements. */
             setsOSets.add(newSet);                                                  /* Add the new set to our set of sets. */
