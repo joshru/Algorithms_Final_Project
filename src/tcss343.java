@@ -60,7 +60,7 @@ public class tcss343 {
             startingSet.add(i);
         }
 
-        Set<Set<Integer>> setsOSets = powerSet(startingSet);                    /* Gets the set of sets. */
+        Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                    /* Gets the set of sets. */
 
         for(Set currSet : setsOSets) {
             int pathSum = 0;                                                    /* Total cost for this path. */
