@@ -22,6 +22,8 @@ public class tcss343 {
         String arr[][] = new String[SIZE][SIZE];
 
         File in = new File("sample_input.txt");
+       // File in = new File("alt_input.txt");
+
         Scanner scn = null;
         try {
             scn = new Scanner(in).useDelimiter("\\t|\\n|\\r"); //delimiter will be tab OR newline
@@ -229,7 +231,7 @@ public class tcss343 {
         //if cell above is equal to current cell
         //    go up
         //else
-        //    go left, record new row in solution
+        //    go left, record new col in solution
         int n = solutionArr[0].length;
         Set<Integer>  winSet = new HashSet<>();
 
@@ -241,18 +243,31 @@ public class tcss343 {
 
             int current = solutionArr[row][col];
             int above   = solutionArr[row-1][col];
+          //  int left    = solutionArr[row][col-1];
 
             if (current == above) {
                 row--; //go up
             } else {                 //optimal path comes from the left, add previous column to solution path
-                winSet.add(col);
-                col--; //go back one column and restart the loop
+                int min = Integer.MAX_VALUE;
+                int minIndex = Integer.MAX_VALUE;
+                int i;
+                for (i = row; i < col; i++) {
+
+                    if (solutionArr[row][i] < min) {
+                        min = solutionArr[row][i];
+                        minIndex = i;
+                    }
+
+                }
+
+                winSet.add(i);
+                col = i; //go back one column and restart the loop
 
             }
 
 
         }
-        System.out.printf("Winning indexes = %s\n", winSet.toString());
+      //  System.out.printf("Winning indexes = %s\n", winSet.toString());
         return winSet;
     }
 
