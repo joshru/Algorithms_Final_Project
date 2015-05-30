@@ -18,9 +18,10 @@ public class tcss343 {
     public static final Random r = new Random();
     public static final int SIZE = 4;
     public static int n;
+    public static String[][] prices;
 
     public static void main(String[] args) {
-        String arr[][] = new String[SIZE][SIZE];
+        prices = new String[SIZE][SIZE];
 
         File in = new File("sample_input.txt");
        // File in = new File("alt_input.txt");
@@ -34,17 +35,17 @@ public class tcss343 {
 
         for(int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                arr[i][j] = scn.next();
+                prices[i][j] = scn.next();
             }
             scn.nextLine();
         }
 
-        n = arr[0].length;                          /* Gets the n size of the set. */
+        n = prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
        // dynamic(arr);
-        brute(arr);
-        brandonDynamic(arr);
+        brute();
+        brandonDynamic();
 //        generateFile(5);
 //        generateFile(100);
 //        generateFile(200);
@@ -58,9 +59,8 @@ public class tcss343 {
      * uses a brute force method of generating all the power sets and then choosing
      * the optimal one.
      * Assymptotic growth is roughly O(2^n)
-     * @param prices the array of prices at any particular stop.
      */
-    public static void brute(String[][] prices) {
+    public static void brute() {
         final int nVal = prices.length;
         int minVal = -1;
         Set<Integer> minSet = new HashSet<>();
@@ -101,21 +101,38 @@ public class tcss343 {
     /**
      * Divide and conquer solution for finding the cheapest pat
      */
-    public static int divide(int startVal, StringBuilder sb) {
+    public static int divide(int i, StringBuilder sb) {
+        int retVal;
 
-        if() {
-
+        if(i == n) {        /* BASE CASE */
+            retVal = 0;
+        } else {
+            int minVal = Integer.MAX_VALUE;
+            int minJ = Integer.MAX_VALUE;
+            String minString = "";
+            for(int j = i + 1; j <= n; j++) {
+                StringBuilder current = new StringBuilder();
+                divide(j,current);
+            }
         }
         return 0;
+    }
+
+    public static int getVal(final int i, final int j) {
+        int val = -1;
+        String price = prices[i][j];
+        if(isNumber(price)) {
+            val = Integer.parseInt(price);
+        }
+        return val;
     }
 
     /**
      * Obtains and prints the lowest possible cost of canoe-ing down the river,
      * uses a dynamic programming algorithm.
      * Assymptotic growth is roughly O(n^2)
-     * @param prices the array of prices at any particular stop.
      */
-    public static void brandonDynamic(String[][] prices) {
+    public static void brandonDynamic() {
         int n = prices[0].length;
         Integer[][] solutionArr = new Integer[n][n];
 
