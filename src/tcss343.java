@@ -50,10 +50,10 @@ public class tcss343 {
 
         brute();
         brandonDynamic();
-        int minCost = divide(n, myList);
+        int minCost = divide(0);
 
         /* Display the minimum set. */
-        System.out.println("Minimum path: " + myList.toString() + ", Minimum cost: " + minCost);
+        System.out.println(", Minimum cost: " + minCost);
         System.out.println();
 
 
@@ -112,30 +112,25 @@ public class tcss343 {
     /**
      * Divide and conquer solution for finding the cheapest pat
      */
-    public static int divide(int i, LinkedList<Integer> myList) {
-        int retVal = Integer.MAX_VALUE;
+    public static int divide(int i) {
+        int retVal = 0;
+        int minVal = Integer.MAX_VALUE;
+        int minJ = Integer.MAX_VALUE;
 
-        if(i == n) {        /* BASE CASE */
-            retVal = 0;
+        if(i == n - 1) {        /* BASE CASE */
+            return 0;
         } else {
-            int minVal = Integer.MAX_VALUE;
-            int minJ = Integer.MAX_VALUE;
-            LinkedList<Integer> minList = new LinkedList<>();
-            for(int j = i + 1; j <= n; j++) {
-                LinkedList<Integer> currList = new LinkedList<>();
-                int curVal = divide(j, currList);
-                if(curVal < minVal) {
+            for(int j = i + 1; j < n; j++) {
+                int curVal = divide(j) + getVal(i, j);
+
+                if (curVal < minVal) {
                     minVal = curVal;
                     minJ = j;
-                    minList = currList;
                 }
             }
-
-            if(getVal(i, minJ) != -1) {
-                retVal = minVal + getVal(i, minJ);
-            }
-            myList.addAll(0, minList);
         }
+        retVal = minVal;
+        System.out.println("i: " + i + ", j: " + minJ + ", return value: " + retVal);
         return retVal;
     }
 
@@ -147,6 +142,7 @@ public class tcss343 {
      */
     public static int getVal(final int i, final int j) {
         int val = -1;
+        System.out.println("(" + i + "," + j + ")");
         String price = prices[i][j];
         if(isNumber(price)) {
             val = Integer.parseInt(price);
