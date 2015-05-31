@@ -47,13 +47,16 @@ public class tcss343 {
 
         //System.out.println(Arrays.deepToString(arr));
 
+        int[] arr = new int[n + 1];
+
+        arr[0] = 0;
 
         brute();
         brandonDynamic();
-        int minCost = divide(0);
+        int[] minCost = divide(arr[0]);
 
         /* Display the minimum set. */
-        System.out.println(", Minimum cost: " + minCost);
+        System.out.println(", Minimum cost: " + minCost[0] + ", Minimum Path: " + Arrays.toString(minCost));
         System.out.println();
 
 
@@ -112,26 +115,36 @@ public class tcss343 {
     /**
      * Divide and conquer solution for finding the cheapest pat
      */
-    public static int divide(int i) {
+    public static int[] divide(int i) {
         int retVal = 0;
         int minVal = Integer.MAX_VALUE;
         int minJ = Integer.MAX_VALUE;
+        int[] arr = new int[n + 1];
 
         if(i == n - 1) {        /* BASE CASE */
-            return 0;
+            arr[0] = 0;
+            return arr;
         } else {
             for(int j = i + 1; j < n; j++) {
-                int curVal = divide(j) + getVal(i, j);
+                int[] curArr = divide(j);
+                int curVal = curArr[0] + getVal(i, j);
 
                 if (curVal < minVal) {
                     minVal = curVal;
                     minJ = j;
+                    for (int k = 0; k < arr.length; k++) {
+                        arr[k] = curArr[k];
+                    }
                 }
             }
         }
         retVal = minVal;
+        arr[0] = retVal;
+
+        //Copy returnArr;
+        arr[i + 1] = minJ + 1;
         System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
-        return retVal;
+        return arr;
     }
 
     /**
