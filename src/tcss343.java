@@ -130,7 +130,7 @@ public class tcss343 {
             }
         }
         retVal = minVal;
-        System.out.println("i: " + i + ", j: " + minJ + ", return value: " + retVal);
+        System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
         return retVal;
     }
 
@@ -142,7 +142,7 @@ public class tcss343 {
      */
     public static int getVal(final int i, final int j) {
         int val = -1;
-        System.out.println("(" + i + "," + j + ")");
+        //System.out.println("(" + i + "," + j + ")");
         String price = prices[i][j];
         if(isNumber(price)) {
             val = Integer.parseInt(price);
