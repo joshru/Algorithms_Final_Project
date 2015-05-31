@@ -56,7 +56,9 @@ public class tcss343 {
         int[] minCost = divide(arr[0]);
 
         /* Display the minimum set. */
-        System.out.println(", Minimum cost: " + minCost[0] + ", Minimum Path: " + Arrays.toString(minCost));
+        String minPathDivide = buildDividePath(minCost);
+        System.out.println("Divide and Conquer Algorithm");
+        System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
         System.out.println();
 
 
@@ -66,6 +68,19 @@ public class tcss343 {
 //        generateFile(400);
 //        generateFile(600);
 //        generateFile(800);
+    }
+
+    private static String buildDividePath(int[] minCost) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[1");
+        for(int i = 1; i < minCost.length; i++) {
+            if(minCost[i] != 0) {
+                sb.append(", " + minCost[i]);
+            }
+        }
+        sb.append("]");
+
+        return sb.toString();
     }
 
     /**
@@ -143,7 +158,7 @@ public class tcss343 {
 
         //Copy returnArr;
         arr[i + 1] = minJ + 1;
-        System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
+        //System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
         return arr;
     }
 
