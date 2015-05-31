@@ -1,3 +1,5 @@
+import sun.awt.image.ImageWatched;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,6 +24,7 @@ public class tcss343 {
 
     public static void main(String[] args) {
         prices = new String[SIZE][SIZE];
+        LinkedList<Integer> myList = new LinkedList<>();
 
         File in = new File("sample_input.txt");
        // File in = new File("alt_input.txt");
@@ -43,9 +46,17 @@ public class tcss343 {
         n = prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
-       // dynamic(arr);
+
+
         brute();
         brandonDynamic();
+        int minCost = divide(n, myList);
+
+        /* Display the minimum set. */
+        System.out.println("Minimum path: " + myList.toString() + ", Minimum cost: " + minCost);
+        System.out.println();
+
+
 //        generateFile(5);
 //        generateFile(100);
 //        generateFile(200);
@@ -101,23 +112,39 @@ public class tcss343 {
     /**
      * Divide and conquer solution for finding the cheapest pat
      */
-    public static int divide(int i, StringBuilder sb) {
-        int retVal;
+    public static int divide(int i, LinkedList<Integer> myList) {
+        int retVal = Integer.MAX_VALUE;
 
         if(i == n) {        /* BASE CASE */
             retVal = 0;
         } else {
             int minVal = Integer.MAX_VALUE;
             int minJ = Integer.MAX_VALUE;
-            String minString = "";
+            LinkedList<Integer> minList = new LinkedList<>();
             for(int j = i + 1; j <= n; j++) {
-                StringBuilder current = new StringBuilder();
-                divide(j,current);
+                LinkedList<Integer> currList = new LinkedList<>();
+                int curVal = divide(j, currList);
+                if(curVal < minVal) {
+                    minVal = curVal;
+                    minJ = j;
+                    minList = currList;
+                }
             }
+
+            if(getVal(i, minJ) != -1) {
+                retVal = minVal + getVal(i, minJ);
+            }
+            myList.addAll(0, minList);
         }
-        return 0;
+        return retVal;
     }
 
+    /**
+     *
+     * @param i
+     * @param j
+     * @return
+     */
     public static int getVal(final int i, final int j) {
         int val = -1;
         String price = prices[i][j];
