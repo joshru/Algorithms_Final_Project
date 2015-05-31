@@ -55,6 +55,7 @@ public class tcss343 {
         brandonDynamic();
         int[] minCost = divide(arr[0]);
 
+        System.out.println(Arrays.toString(minCost));
         /* Display the minimum set. */
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
@@ -74,7 +75,7 @@ public class tcss343 {
         StringBuilder sb = new StringBuilder();
         sb.append("[1");
         for(int i = 1; i < minCost.length; i++) {
-            if(minCost[i] != 0) {
+            if(minCost[i] > 0) {
                 sb.append(", " + minCost[i]);
             }
         }
@@ -153,10 +154,9 @@ public class tcss343 {
                 }
             }
         }
-        retVal = minVal;
-        arr[0] = retVal;
+        arr[0] = minVal;                /* Updates the minimum value. */
 
-        //Copy returnArr;
+        /* Add the current solution j value to the arrgument. */
         arr[i + 1] = minJ + 1;
         //System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
         return arr;
