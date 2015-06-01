@@ -20,47 +20,29 @@ import java.util.concurrent.Exchanger;
 public class tcss343 {
 
     public static final Random r = new Random();
-    public static final int SIZE = 4;
+    public static final int SIZE = 5;
     public static int n;
-    public static String[][] prices;
+    public static Integer[][] prices;
 
     public static void main(String[] args) {
-        prices = new String[SIZE][SIZE];
-        LinkedList<Integer> myList = new LinkedList<>();
-
-        File in = new File("sample_input.txt");
-       // File in = new File("alt_input.txt");
-
-        Scanner scn = null;
-        try {
-            scn = new Scanner(in).useDelimiter("\\t|\\n|\\r"); //delimiter will be tab OR newline
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        for(int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                prices[i][j] = scn.next();
-            }
-            scn.nextLine();
-        }
+        prices = new Integer[SIZE][SIZE];
 
         n = 5;//prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
         System.out.println("Array obtained from file");
-        Integer[][] input = readFile();
+        readFile();
         for (int i = 0; i < n; i++) {
 
             for (int j = 0; j < n; j++) {
-                System.out.print(input[i][j] + "\t");
+                System.out.print(prices[i][j] + "\t");
             }
             System.out.println();
-
         }
-        System.out.println(Arrays.deepToString(readFile()));
+        System.out.println();
 
-        /*int[] arr = new int[n + 1];
+
+        int[] arr = new int[n + 1];
 
         arr[0] = 0;
 
@@ -69,11 +51,11 @@ public class tcss343 {
         int[] minCost = divide(arr[0]);
 
         System.out.println(Arrays.toString(minCost));
-        *//* Display the minimum set. *//*
+          //Display the minimum set.
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();*/
+        System.out.println();
 
 
 //        generateFile(5);
@@ -84,8 +66,7 @@ public class tcss343 {
 //        generateFile(800);
     }
 
-    private static Integer[][] readFile() {
-        Integer[][] fileArr = new Integer[n][n];
+    private static void readFile() {
         FileReader inputStream = null;
         String fileName = "alt_input.txt";
         try {
@@ -102,17 +83,15 @@ public class tcss343 {
             int end = 0;
             int i = 0, j = 0;
 
-
-           // for (int k = 0; k < message.length(); k++) {
             while (end < message.length()) {
                 while (isValidInput(message.charAt(end))) {
                     end++;
                 }
                 String nextVal = message.substring(start, end);
                 if (isNumber(nextVal)) {
-                    fileArr[i][j] = Integer.parseInt(nextVal);
+                    prices[i][j] = Integer.parseInt(nextVal);
                 } else {
-                    fileArr[i][j] = -1;
+                    prices[i][j] = -1;
                 }
                 j++;
 
@@ -124,20 +103,15 @@ public class tcss343 {
                 while (!isValidInput(message.charAt(end))) end++;
                 start = end;
 
-
             }
-
-
-
 
             inputStream.close();
 
         } catch (Exception e) {
 
         }
-        fileArr[n-1][n-1] = 0;
+        prices[n-1][n-1] = 0;
 
-        return fileArr;
     }
     private static boolean isValidInput(char c) {
         return "NA".contains(""+c) || isNumber(""+c);
@@ -185,7 +159,7 @@ public class tcss343 {
                 for(int i = 0; i < currSet.size() - 1; i++) {                   /* i = Rx, i + 1 = Ry */
                     int priceRow = setList.get(i) - 1;                          /* Get the row in the array of the path cost. */
                     int priceCol = setList.get(i + 1) - 1;                      /* Get the col in the array of the path cost. */
-                    pathSum += Integer.parseInt(prices[priceRow][priceCol]);
+                    pathSum += prices[priceRow][priceCol];
                 }
 
                 if(pathSum < minVal || minVal == -1) {                          /* Assign minVal if pathSum is smaller. */
@@ -215,7 +189,7 @@ public class tcss343 {
         } else {
             for(int j = i + 1; j < n; j++) {
                 int[] curArr = divide(j);
-                int curVal = curArr[0] + getVal(i, j);
+                int curVal = curArr[0] + prices[i][j];//getVal(i, j);
 
                 if (curVal < minVal) {
                     minVal = curVal;
@@ -234,21 +208,7 @@ public class tcss343 {
         return arr;
     }
 
-    /**
-     *
-     * @param i
-     * @param j
-     * @return
-     */
-    public static int getVal(final int i, final int j) {
-        int val = -1;
-        //System.out.println("(" + i + "," + j + ")");
-        String price = prices[i][j];
-        if(isNumber(price)) {
-            val = Integer.parseInt(price);
-        }
-        return val;
-    }
+
 
     /**
      * Obtains and prints the lowest possible cost of canoe-ing down the river,
@@ -263,8 +223,8 @@ public class tcss343 {
          * Will always be the same as the top row of the input
          */
         for (int i = 0 ; i < n; i++) {
-            if (isNumber(prices[0][i]))
-                solutionArr[0][i] = Integer.parseInt(prices[0][i]);
+           // if (isNumber(prices[0][i]))
+                solutionArr[0][i] = prices[0][i];
         }
 
         //Top to bottom
@@ -278,16 +238,16 @@ public class tcss343 {
                 //of renting a canoe in this particular column.
                 for (int k = i; k < j; k++) {
                     if (solutionArr[i][k]
-                            + Integer.parseInt(prices[i][j]) < minValue
+                            + prices[i][j] < minValue
                             || minValue == -1) {
-                        minValue = solutionArr[i][k] + Integer.parseInt(prices[i][j]);
+                        minValue = solutionArr[i][k] + prices[i][j];
                     }
                 }
                 //find the minimum value of all cells above in the same column of the current cell
                 //if any of these values are less than the current minimum obtained from looking to the left,
                 //update the minimum to the value above as it is more optimal.
                 for (int k = 0; k < i; k++) {
-                    if (isNumber(prices[k][j])) {
+                    if (prices[k][j] != -1) {
 
                         if (solutionArr[k][j] < minValue || minValue == -1) {
                             minValue = solutionArr[k][j];
