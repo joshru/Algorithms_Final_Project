@@ -2,12 +2,14 @@ import sun.awt.image.ImageWatched;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.*;
+import java.util.concurrent.Exchanger;
 
 /**
  * TCSS 343 Final Project
@@ -43,11 +45,22 @@ public class tcss343 {
             scn.nextLine();
         }
 
-        n = prices[0].length;                          /* Gets the n size of the set. */
+        n = 5;//prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
+        System.out.println("Array obtained from file");
+        Integer[][] input = readFile();
+        for (int i = 0; i < n; i++) {
 
-        int[] arr = new int[n + 1];
+            for (int j = 0; j < n; j++) {
+                System.out.print(input[i][j] + "\t");
+            }
+            System.out.println();
+
+        }
+        System.out.println(Arrays.deepToString(readFile()));
+
+        /*int[] arr = new int[n + 1];
 
         arr[0] = 0;
 
@@ -56,11 +69,11 @@ public class tcss343 {
         int[] minCost = divide(arr[0]);
 
         System.out.println(Arrays.toString(minCost));
-        /* Display the minimum set. */
+        *//* Display the minimum set. *//*
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();
+        System.out.println();*/
 
 
 //        generateFile(5);
@@ -69,6 +82,64 @@ public class tcss343 {
 //        generateFile(400);
 //        generateFile(600);
 //        generateFile(800);
+    }
+
+    private static Integer[][] readFile() {
+        Integer[][] fileArr = new Integer[n][n];
+        FileReader inputStream = null;
+        String fileName = "alt_input.txt";
+        try {
+            inputStream = new FileReader(fileName);
+            int c;
+            StringBuilder message = new StringBuilder();
+
+            while ((c = inputStream.read()) != -1) {
+                message.append((char) c);
+            }
+
+            //populate array
+            int start = 0;
+            int end = 0;
+            int i = 0, j = 0;
+
+
+           // for (int k = 0; k < message.length(); k++) {
+            while (end <= message.length()) {
+                while (isValidInput(message.charAt(end))) {
+                    end++;
+                }
+                String nextVal = message.substring(start, end);
+                if (isNumber(nextVal)) {
+                    fileArr[i][j] = Integer.parseInt(nextVal);
+                } else {
+                    fileArr[i][j] = -1;
+                }
+                j++;
+                if (j == n) {
+                    j = 0;
+                    i++;
+                }
+
+                while (!isValidInput(message.charAt(end))) end++;
+                start = end;
+
+
+            }
+            fileArr[n-1][n-1] = 0;
+
+
+
+
+            inputStream.close();
+
+        } catch (Exception e) {
+
+        }
+
+        return fileArr;
+    }
+    private static boolean isValidInput(char c) {
+        return "NA".contains(""+c) || isNumber(""+c);
     }
 
     private static String buildDividePath(int[] minCost) {
@@ -156,7 +227,7 @@ public class tcss343 {
         }
         arr[0] = minVal;                /* Updates the minimum value. */
 
-        /* Add the current solution j value to the arrgument. */
+        /* Add the current solution j value to the argument. */
         arr[i + 1] = minJ + 1;
         //System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
         return arr;
