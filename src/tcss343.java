@@ -104,7 +104,7 @@ public class tcss343 {
 
 
            // for (int k = 0; k < message.length(); k++) {
-            while (end <= message.length()) {
+            while (end < message.length()) {
                 while (isValidInput(message.charAt(end))) {
                     end++;
                 }
@@ -115,6 +115,7 @@ public class tcss343 {
                     fileArr[i][j] = -1;
                 }
                 j++;
+
                 if (j == n) {
                     j = 0;
                     i++;
@@ -125,7 +126,6 @@ public class tcss343 {
 
 
             }
-            fileArr[n-1][n-1] = 0;
 
 
 
@@ -135,6 +135,7 @@ public class tcss343 {
         } catch (Exception e) {
 
         }
+        fileArr[n-1][n-1] = 0;
 
         return fileArr;
     }
