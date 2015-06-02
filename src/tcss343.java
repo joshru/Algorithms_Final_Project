@@ -55,7 +55,7 @@ public class tcss343 {
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();*/
+        System.out.println();
 
 
 //        generateFile(5);
@@ -275,7 +275,7 @@ public class tcss343 {
         }
         */
 
-        System.out.println("Minimum path: " + recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
+        System.out.println("Minimum path: " +recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
         System.out.println();
     }
 
@@ -298,7 +298,7 @@ public class tcss343 {
         //else
         //    go left, record new col in solution
         int n = solutionArr[0].length;
-        Set<Integer>  winSet = new TreeSet<>();
+        Set<Integer>  winSet = new HashSet<>();
 
         winSet.add(1); winSet.add(n); //add first and last column to winning set
         int row = n - 1, col = n - 1; //very last cell
