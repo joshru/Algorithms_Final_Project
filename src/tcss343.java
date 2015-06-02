@@ -14,7 +14,7 @@ import java.util.*;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static int N = 20;
+    public static int N = 100;
     public static Integer[][] prices;
 
     public static void main(String[] args) {
@@ -27,9 +27,9 @@ public class tcss343 {
 
         long start = System.currentTimeMillis();
         long end;
-        brute();
-        end = System.currentTimeMillis();
-        System.out.println("Brute Force solution took " + (end - start) + " milliseconds");
+     //   brute();
+        //end = System.currentTimeMillis();
+       // System.out.println("Brute Force solution took " + (end - start) + " milliseconds");
 
         start = System.currentTimeMillis();
         dynamic();
@@ -39,7 +39,9 @@ public class tcss343 {
         start = System.currentTimeMillis();
         int[] arr = new int[N + 1];
 
-        arr[0] = 0;
+
+        dynamic();
+       // int[] minCost = divide(arr[0]);
 
         int[] minCost = divide(arr[0]);
 
@@ -135,7 +137,7 @@ public class tcss343 {
         }
 
 //        Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                 /* Gets the set of sets. */
-        Set<Set<Integer>> setsOSets = getPowerSetIterative(startingSet);
+        Set<TreeSet<Integer>> setsOSets = getPowerSetIterative(startingSet);
         //System.out.println("Sets generated");
         System.out.println("Brute Force Algorithm");
         for(Set<Integer> currSet : setsOSets) {
@@ -179,7 +181,7 @@ public class tcss343 {
         } else {
             for(int j = i + 1; j < N; j++) {
                 int[] curArr = divide(j);
-                int curVal = curArr[0] + prices[i][j];//getVal(i, j);
+                int curVal = curArr[0] + prices[i][j];
 
                 if (curVal < minVal) {
                     minVal = curVal;
@@ -187,7 +189,7 @@ public class tcss343 {
 //                    for (int k = 0; k < arr.length; k++) {
 //                        arr[k] = curArr[k];
 //                    }
-                    System.arraycopy(curArr, 0, arr, 0, arr.length);
+                    System.arraycopy(curArr, 0, arr, 0, arr.length); //O(n)
                 }
             }
         }
@@ -382,7 +384,7 @@ public class tcss343 {
      */
     public static Set<Set<Integer>> getPowerSet(Set<Integer> theStartingSet) {
 
-        Set<Set<Integer>> setsOSets = new HashSet<>();
+        Set<Set<Integer>> setsOSets = new TreeSet<>();
 
         if (theStartingSet.isEmpty()) {                                             /* BASE CASE: If the set is empty, return. */
             setsOSets.add(new HashSet<>());
@@ -406,17 +408,17 @@ public class tcss343 {
         return setsOSets;
     }
 
-    public static Set<Set<Integer>> getPowerSetIterative(Set<Integer> theStartingSet) {
-        Set<Set<Integer>> powerSet = new HashSet<>();
-        powerSet.add(new HashSet<>());
+    public static Set<TreeSet<Integer>> getPowerSetIterative(Set<Integer> theStartingSet) {
+        Set<TreeSet<Integer>> powerSet = new HashSet<>();
+        powerSet.add(new TreeSet<>());
 
         for (Integer currentInt : theStartingSet) {
-            Set<Set<Integer>> newSet = new HashSet<>();
+            Set<TreeSet<Integer>> newSet = new HashSet<>();
 
-            for (Set<Integer> subset : powerSet) {
+            for (TreeSet<Integer> subset : powerSet) {
                 newSet.add(subset);
 
-                Set<Integer> newSubset = new HashSet<>(subset);
+                TreeSet<Integer> newSubset = new TreeSet<>(subset);
                 newSubset.add(currentInt);
                 newSet.add(newSubset);
 
