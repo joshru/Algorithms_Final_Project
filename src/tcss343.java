@@ -48,7 +48,7 @@ public class tcss343 {
 //        arr[0] = 0;
 //
         brute();
-        //brandonDynamic();
+        //dynamic();
        /* int[] minCost = divide(arr[0]);
 
         System.out.println(Arrays.toString(minCost));
@@ -218,7 +218,7 @@ public class tcss343 {
      * uses a dynamic programming algorithm.
      * Assymptotic growth is roughly O(n^2)
      */
-    public static void brandonDynamic() {
+    public static void dynamic() {
         int n = prices[0].length;
         Integer[][] solutionArr = new Integer[n][n];
 
