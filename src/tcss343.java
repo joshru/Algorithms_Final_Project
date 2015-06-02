@@ -24,9 +24,19 @@ public class tcss343 {
 
         System.out.println("Array obtained from file");
         readFile();
-        brute();
-        dynamic();
 
+        long start = System.currentTimeMillis();
+        long end;
+        brute();
+        end = System.currentTimeMillis();
+        System.out.println("Brute Force solution took " + (end - start) + " milliseconds");
+
+        start = System.currentTimeMillis();
+        dynamic();
+        end = System.currentTimeMillis();
+        System.out.println("Dynamic solution took " + (end - start) + " milliseconds");
+
+        start = System.currentTimeMillis();
         int[] arr = new int[N + 1];
 
         arr[0] = 0;
@@ -39,6 +49,8 @@ public class tcss343 {
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
         System.out.println();
+        end = System.currentTimeMillis();
+        System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");
     }
 
     private static void readFile() {
@@ -115,7 +127,7 @@ public class tcss343 {
     public static void brute() {
         final int nVal = prices.length;
         int minVal = -1;
-        Set<Integer> minSet = new HashSet<>();
+        Set<Integer> minSet = new TreeSet<>();
 
         HashSet<Integer> startingSet = new HashSet<>();                         /* This set will hold 1 ..... n values. */
         for(int i = 1; i <= nVal; i++) {                                        /* Populates the starting set */
