@@ -55,7 +55,7 @@ public class tcss343 {
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();
+        System.out.println(); */
 
 
 //        generateFile(5);
@@ -113,6 +113,7 @@ public class tcss343 {
         prices[n-1][n-1] = 0;
 
     }
+
     private static boolean isValidInput(char c) {
         return "NA".contains(""+c) || isNumber(""+c);
     }
