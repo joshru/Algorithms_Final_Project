@@ -22,42 +22,23 @@ public class tcss343 {
 
 //        n = N;//prices[0].length;                          /* Gets the n size of the set. */
 
-        //System.out.println(Arrays.deepToString(arr));
         System.out.println("Array obtained from file");
-        generateFile(25);
         readFile();
-//        for (int i = 0; i < n; i++) {
-//
-//            for (int j = 0; j < n; j++) {
-//                System.out.print(prices[i][j] + "\t");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
-
-
-//        int[] arr = new int[n + 1];
-//
-//        arr[0] = 0;
-//
-//        brute();
+        brute();
         dynamic();
-       /* int[] minCost = divide(arr[0]);
 
-        System.out.println(Arrays.toString(minCost));
-          //Display the minimum set.
+        int[] arr = new int[N + 1];
+
+        arr[0] = 0;
+
+        int[] minCost = divide(arr[0]);
+
+//        System.out.println(Arrays.toString(minCost));
+//        Display the minimum set.
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();*/
-
-
-//        generateFile(5);
-//        generateFile(30);
-//        generateFile(20);
-//        generateFile(40);
-//        generateFile(600);
-//        generateFile(800);
+        System.out.println();
     }
 
     private static void readFile() {
@@ -107,6 +88,7 @@ public class tcss343 {
         prices[N-1][N-1] = 0;
 
     }
+
     private static boolean isValidInput(char c) {
         return "NA".contains(""+c) || isNumber(""+c);
     }
@@ -190,9 +172,10 @@ public class tcss343 {
                 if (curVal < minVal) {
                     minVal = curVal;
                     minJ = j;
-                    for (int k = 0; k < arr.length; k++) {
-                        arr[k] = curArr[k];
-                    }
+//                    for (int k = 0; k < arr.length; k++) {
+//                        arr[k] = curArr[k];
+//                    }
+                    System.arraycopy(curArr, 0, arr, 0, arr.length);
                 }
             }
         }
@@ -390,18 +373,18 @@ public class tcss343 {
         Set<Set<Integer>> setsOSets = new HashSet<>();
 
         if (theStartingSet.isEmpty()) {                                             /* BASE CASE: If the set is empty, return. */
-            setsOSets.add(new HashSet<Integer>());
+            setsOSets.add(new HashSet<>());
             return setsOSets;
         }
 
-        List<Integer> list = new ArrayList<Integer>(theStartingSet);                /* Convert to list for index access. */
+        List<Integer> list = new ArrayList<>(theStartingSet);                /* Convert to list for index access. */
         Integer first = list.get(0);                                                /* Get the first value of the set. */
-        Set<Integer> rest = new HashSet<Integer>(list.subList(1, list.size()));     /* Get the rest of the set. */
+        Set<Integer> rest = new HashSet<>(list.subList(1, list.size()));     /* Get the rest of the set. */
 
 
         for (Set<Integer> currentSet : getPowerSet(rest)) {                         /* For each set within sets. */
 
-            Set<Integer> newSet = new HashSet<Integer>();                           /* Create a new set to store the data. */
+            Set<Integer> newSet = new HashSet<>();                           /* Create a new set to store the data. */
             newSet.add(first);                                                      /* Add the first element. */
             newSet.addAll(currentSet);                                              /* Add the rest of the elements. */
             setsOSets.add(newSet);                                                  /* Add the new set to our set of sets. */
@@ -413,7 +396,7 @@ public class tcss343 {
 
     public static Set<Set<Integer>> getPowerSetIterative(Set<Integer> theStartingSet) {
         Set<Set<Integer>> powerSet = new HashSet<>();
-        powerSet.add(new HashSet<Integer>());
+        powerSet.add(new HashSet<>());
 
         for (Integer currentInt : theStartingSet) {
             Set<Set<Integer>> newSet = new HashSet<>();
