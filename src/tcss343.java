@@ -20,7 +20,7 @@ import java.util.concurrent.Exchanger;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static final int SIZE = 4;
+    public static final int SIZE = 25;
     public static int n;
     public static Integer[][] prices;
 
@@ -46,10 +46,7 @@ public class tcss343 {
         int[] arr = new int[n + 1];
 
         arr[0] = 0;
-      //  generateFile(100);
-       // generateFile(200);
-       // generateFile(400);
-       // generateFile(800);
+
         brute();
         //brandonDynamic();
        /* int[] minCost = divide(arr[0]);
