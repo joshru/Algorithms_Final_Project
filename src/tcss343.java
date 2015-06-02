@@ -20,7 +20,7 @@ import java.util.concurrent.Exchanger;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static final int SIZE = 25;
+    public static final int SIZE = 20;
     public static int n;
     public static Integer[][] prices;
 
@@ -33,20 +33,20 @@ public class tcss343 {
         System.out.println("Array obtained from file");
         generateFile(25);
         readFile();
-        for (int i = 0; i < n; i++) {
+//        for (int i = 0; i < n; i++) {
+//
+//            for (int j = 0; j < n; j++) {
+//                System.out.print(prices[i][j] + "\t");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
 
-            for (int j = 0; j < n; j++) {
-                System.out.print(prices[i][j] + "\t");
-            }
-            System.out.println();
-        }
-        System.out.println();
 
-
-        int[] arr = new int[n + 1];
-
-        arr[0] = 0;
-
+//        int[] arr = new int[n + 1];
+//
+//        arr[0] = 0;
+//
         brute();
         //brandonDynamic();
        /* int[] minCost = divide(arr[0]);
@@ -60,16 +60,16 @@ public class tcss343 {
 
 
 //        generateFile(5);
-//        generateFile(100);
-//        generateFile(200);
-//        generateFile(400);
+//        generateFile(30);
+//        generateFile(20);
+//        generateFile(40);
 //        generateFile(600);
 //        generateFile(800);
     }
 
     private static void readFile() {
         FileReader inputStream = null;
-        String fileName = "25input.txt";
+        String fileName = "" + SIZE + "input.txt";
         try {
             inputStream = new FileReader(fileName);
             int c;
@@ -301,7 +301,7 @@ public class tcss343 {
         //else
         //    go left, record new col in solution
         int n = solutionArr[0].length;
-        Set<Integer>  winSet = new HashSet<>();
+        Set<Integer>  winSet = new TreeSet<>(); /*O(log(n))*/
 
         winSet.add(1); winSet.add(n); //add first and last column to winning set
         int row = n - 1, col = n - 1; //very last cell
