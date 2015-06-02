@@ -20,14 +20,14 @@ import java.util.concurrent.Exchanger;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static final int SIZE = 5;
+    public static final int SIZE = 4;
     public static int n;
     public static Integer[][] prices;
 
     public static void main(String[] args) {
         prices = new Integer[SIZE][SIZE];
 
-        n = 5;//prices[0].length;                          /* Gets the n size of the set. */
+        n = SIZE;//prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
         System.out.println("Array obtained from file");
@@ -45,17 +45,20 @@ public class tcss343 {
         int[] arr = new int[n + 1];
 
         arr[0] = 0;
-
-        brute();
-        brandonDynamic();
-        int[] minCost = divide(arr[0]);
+        generateFile(100);
+        generateFile(200);
+        generateFile(400);
+        generateFile(800);
+        //brute();
+        //brandonDynamic();
+       /* int[] minCost = divide(arr[0]);
 
         System.out.println(Arrays.toString(minCost));
           //Display the minimum set.
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();
+        System.out.println();*/
 
 
 //        generateFile(5);
@@ -68,7 +71,7 @@ public class tcss343 {
 
     private static void readFile() {
         FileReader inputStream = null;
-        String fileName = "alt_input.txt";
+        String fileName = "sample_input.txt";
         try {
             inputStream = new FileReader(fileName);
             int c;
@@ -134,7 +137,7 @@ public class tcss343 {
      * Obtains and prints the lowest possible cost of canoe-ing down the river,
      * uses a brute force method of generating all the power sets and then choosing
      * the optimal one.
-     * Assymptotic growth is roughly O(2^n)
+     * Asymptotic growth is roughly O(2^n)
      */
     public static void brute() {
         final int nVal = prices.length;
@@ -176,6 +179,7 @@ public class tcss343 {
 
     /**
      * Divide and conquer solution for finding the cheapest pat
+     * Asymptotic complexity is O(n^2)
      */
     public static int[] divide(int i) {
         int retVal = 0;
@@ -275,7 +279,7 @@ public class tcss343 {
         }
         */
 
-        System.out.println("Minimum path: " +recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
+        System.out.println("Minimum path: " + recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
         System.out.println();
     }
 
