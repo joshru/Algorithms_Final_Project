@@ -1,15 +1,9 @@
-import sun.awt.image.ImageWatched;
-
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.*;
-import java.util.concurrent.Exchanger;
 
 /**
  * TCSS 343 Final Project
@@ -20,14 +14,13 @@ import java.util.concurrent.Exchanger;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static final int SIZE = 20;
-    public static int n;
+    public static int N = 20;
     public static Integer[][] prices;
 
     public static void main(String[] args) {
-        prices = new Integer[SIZE][SIZE];
+        prices = new Integer[N][N];
 
-        n = SIZE;//prices[0].length;                          /* Gets the n size of the set. */
+//        n = N;//prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
         System.out.println("Array obtained from file");
@@ -47,8 +40,8 @@ public class tcss343 {
 //
 //        arr[0] = 0;
 //
-        brute();
-        //dynamic();
+//        brute();
+        dynamic();
        /* int[] minCost = divide(arr[0]);
 
         System.out.println(Arrays.toString(minCost));
@@ -69,7 +62,7 @@ public class tcss343 {
 
     private static void readFile() {
         FileReader inputStream = null;
-        String fileName = "" + SIZE + "input.txt";
+        String fileName = "" + N + "input.txt";
         try {
             inputStream = new FileReader(fileName);
             int c;
@@ -96,7 +89,7 @@ public class tcss343 {
                 }
                 j++;
 
-                if (j == n) {
+                if (j == N) {
                     j = 0;
                     i++;
                 }
@@ -111,7 +104,7 @@ public class tcss343 {
         } catch (Exception e) {
 
         }
-        prices[n-1][n-1] = 0;
+        prices[N-1][N-1] = 0;
 
     }
     private static boolean isValidInput(char c) {
@@ -184,13 +177,13 @@ public class tcss343 {
         int retVal = 0;
         int minVal = Integer.MAX_VALUE;
         int minJ = Integer.MAX_VALUE;
-        int[] arr = new int[n + 1];
+        int[] arr = new int[N + 1];
 
-        if(i == n - 1) {        /* BASE CASE */
+        if(i == N - 1) {        /* BASE CASE */
             arr[0] = 0;
             return arr;
         } else {
-            for(int j = i + 1; j < n; j++) {
+            for(int j = i + 1; j < N; j++) {
                 int[] curArr = divide(j);
                 int curVal = curArr[0] + prices[i][j];//getVal(i, j);
 
