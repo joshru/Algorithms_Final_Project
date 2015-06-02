@@ -20,14 +20,14 @@ import java.util.concurrent.Exchanger;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static final int SIZE = 5;
+    public static final int SIZE = 100;
     public static int n;
     public static Integer[][] prices;
 
     public static void main(String[] args) {
         prices = new Integer[SIZE][SIZE];
 
-        n = 5;//prices[0].length;                          /* Gets the n size of the set. */
+        n = 100;//prices[0].length;                          /* Gets the n size of the set. */
 
         //System.out.println(Arrays.deepToString(arr));
         System.out.println("Array obtained from file");
@@ -47,15 +47,15 @@ public class tcss343 {
         arr[0] = 0;
 
         brute();
-        brandonDynamic();
-        int[] minCost = divide(arr[0]);
+//        brandonDynamic();
+/*        int[] minCost = divide(arr[0]);
 
         System.out.println(Arrays.toString(minCost));
           //Display the minimum set.
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();
+        System.out.println();*/
 
 
 //        generateFile(5);
@@ -68,7 +68,7 @@ public class tcss343 {
 
     private static void readFile() {
         FileReader inputStream = null;
-        String fileName = "alt_input.txt";
+        String fileName = "100input.txt";
         try {
             inputStream = new FileReader(fileName);
             int c;
@@ -175,7 +175,7 @@ public class tcss343 {
     }
 
     /**
-     * Divide and conquer solution for finding the cheapest pat
+     * Divide and conquer solution for finding the cheapest path
      */
     public static int[] divide(int i) {
         int retVal = 0;
@@ -275,7 +275,7 @@ public class tcss343 {
         }
         */
 
-        System.out.println("Minimum path: " +recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
+        System.out.println("Minimum path: " + recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
         System.out.println();
     }
 
@@ -298,7 +298,7 @@ public class tcss343 {
         //else
         //    go left, record new col in solution
         int n = solutionArr[0].length;
-        Set<Integer>  winSet = new HashSet<>();
+        Set<Integer>  winSet = new TreeSet<>();
 
         winSet.add(1); winSet.add(n); //add first and last column to winning set
         int row = n - 1, col = n - 1; //very last cell
