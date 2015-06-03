@@ -24,7 +24,7 @@ public class tcss343 {
            n = getSize(fileName);
             System.out.println("File succesfully read in, File size: " + n);
         } else {
-            fileName= "20input.txt";
+            fileName= "40input.txt";
             n = getSize(fileName); //testing stuff
             System.out.println("No input file given.");
           //  return;
@@ -35,10 +35,10 @@ public class tcss343 {
         setPrices(fileName);
 
         // Dynamic Algorithm and Output
-        /*start = System.currentTimeMillis();
+        start = System.currentTimeMillis();
         dynamic();
         end = System.currentTimeMillis();
-        System.out.println("Dynamic solution took " + (end - start) + " milliseconds\n");*/
+        System.out.println("Dynamic solution took " + (end - start) + " milliseconds\n");
 
 
         // Brute Force Algorithm and Output
@@ -306,7 +306,6 @@ public class tcss343 {
      * @return a set of the winning indexes. (not zero based)
      */
     public static Set<Integer> recover(Integer[][] solutionArr) {
-        //fackin recover time bud
         //algorithm:
         //add first and last col # to solution set
 
@@ -412,7 +411,8 @@ public class tcss343 {
             Set<TreeSet<Integer>> newSet = new HashSet<>();         //current set to replace the powerset
 
             for (TreeSet<Integer> subset : powerSet) {              //for every subset in the powerset so far
-                if (subset.contains(1) || subset.contains(n-1)) {
+                if (subset.contains(1) || subset.contains(n-1)) {  //make sure old subsets that actually have
+                                                                   //useful values are kept in the powerset
                     newSet.add(subset);                            //add the current subset to the new powerset
                 }
 
