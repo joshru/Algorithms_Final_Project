@@ -57,7 +57,7 @@ public class tcss343 {
     }
 
     private static int getSize(String fileName) {
-        BufferedReader reader = null;
+        BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(fileName));
             int lines = 0;
@@ -71,7 +71,7 @@ public class tcss343 {
     }
 
     private static void setPrices(String fileName) {
-        FileReader inputStream = null;
+        FileReader inputStream;
         try {
             inputStream = new FileReader(fileName);
             int c;
@@ -111,7 +111,7 @@ public class tcss343 {
             inputStream.close();
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         prices[n-1][n-1] = 0;
 
@@ -126,7 +126,8 @@ public class tcss343 {
         sb.append("[1");
         for(int i = 1; i < minCost.length; i++) {
             if(minCost[i] > 0) {
-                sb.append(", " + minCost[i]);
+                sb.append(", ");
+                sb.append(minCost[i]);
             }
         }
         sb.append("]");
@@ -183,7 +184,6 @@ public class tcss343 {
      * Asymptotic complexity is O(n^2)
      */
     public static int[] divide(int i) {
-        int retVal = 0;
         int minVal = Integer.MAX_VALUE;
         int minJ = Integer.MAX_VALUE;
         int[] arr = new int[n + 1];
@@ -212,7 +212,7 @@ public class tcss343 {
         return arr;
     }
 
-    public static int BrandonDivide(int i) {
+/*    public static int BrandonDivide(int i) {
         int minPath = 0, j;
         //int[] solArr = new int[N+1];
         int minValue = Integer.MAX_VALUE;
@@ -226,7 +226,7 @@ public class tcss343 {
         //solArr[i] = minValue;
 
         return minValue;
-    }
+    }*/
 
 
 
@@ -243,7 +243,6 @@ public class tcss343 {
          * Will always be the same as the top row of the input
          */
         for (int i = 0 ; i < n; i++) {
-           // if (isNumber(prices[0][i]))
                 solutionArr[0][i] = prices[0][i];
         }
 
@@ -400,53 +399,26 @@ public class tcss343 {
     }
 
     /**
-     * Takes a set of integers, and returns a set of all power sets.
-     * PowerSet references were taken from wiki and Stackoverflow.
-     * @param theStartingSet the starting set to be expanded.
-     * @return the final set of subsets from theStartingSet.
+     * Obtains the powerset off all the numbers between 1 and n
+     * @param theStartingSet the initial set of numbers
+     * @return the set of all possible subsets.
      */
-    public static Set<Set<Integer>> getPowerSet(Set<Integer> theStartingSet) {
-
-        Set<Set<Integer>> setsOSets = new TreeSet<>();
-
-        if (theStartingSet.isEmpty()) {                                             /* BASE CASE: If the set is empty, return. */
-            setsOSets.add(new HashSet<>());
-            return setsOSets;
-        }
-
-        List<Integer> list = new ArrayList<>(theStartingSet);                       /* Convert to list for index access. */
-        Integer first = list.get(0);                                                /* Get the first value of the set. */
-        Set<Integer> rest = new HashSet<>(list.subList(1, list.size()));            /* Get the rest of the set. */
-
-
-        for (Set<Integer> currentSet : getPowerSet(rest)) {                         /* For each set within sets. */
-
-            Set<Integer> newSet = new HashSet<>();                                  /* Create a new set to store the data. */
-            newSet.add(first);                                                      /* Add the first element. */
-            newSet.addAll(currentSet);                                              /* Add the rest of the elements. */
-            setsOSets.add(newSet);                                                  /* Add the new set to our set of sets. */
-            setsOSets.add(currentSet);                                              /* Add the old set to our set of sets. */
-        }
-       //
-        return setsOSets;
-    }
-
     public static Set<TreeSet<Integer>> getPowerSetIterative(Set<Integer> theStartingSet) {
-        Set<TreeSet<Integer>> powerSet = new HashSet<>();
-        powerSet.add(new TreeSet<>());
+        Set<TreeSet<Integer>> powerSet = new HashSet<>();           //result set
+        powerSet.add(new TreeSet<>());                              //base: add empty set
 
-        for (Integer currentInt : theStartingSet) {
-            Set<TreeSet<Integer>> newSet = new HashSet<>();
+        for (Integer currentInt : theStartingSet) {                 //for every number in the range from 1 to n
+            Set<TreeSet<Integer>> newSet = new HashSet<>();         //current set to replace the powerset
 
-            for (TreeSet<Integer> subset : powerSet) {
-                newSet.add(subset);
+            for (TreeSet<Integer> subset : powerSet) {              //for every subset in the powerset so far
+                newSet.add(subset);                                 //add the succrent subset to the new powerset
 
-                TreeSet<Integer> newSubset = new TreeSet<>(subset);
-                newSubset.add(currentInt);
-                newSet.add(newSubset);
-
+                TreeSet<Integer> newSubset = new TreeSet<>(subset); //Copy the current subset
+                newSubset.add(currentInt);                          //and add the current int to it
+                newSet.add(newSubset);                              //add the newly formed subset with one more element
+                                                                    //than the previous to the powerset
             }
-            powerSet = newSet;
+            powerSet = newSet;                                      //reassign powerset
         }
         return powerSet;
 
