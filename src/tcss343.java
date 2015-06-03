@@ -24,8 +24,10 @@ public class tcss343 {
            n = getSize(fileName);
             System.out.println("File succesfully read in, File size: " + n);
         } else {
+            fileName= "20input.txt";
+            n = getSize(fileName); //testing stuff
             System.out.println("No input file given.");
-            return;
+          //  return;
         }
 
         // Instantiate the prices array given the file size.
@@ -33,10 +35,10 @@ public class tcss343 {
         setPrices(fileName);
 
         // Dynamic Algorithm and Output
-        start = System.currentTimeMillis();
+        /*start = System.currentTimeMillis();
         dynamic();
         end = System.currentTimeMillis();
-        System.out.println("Dynamic solution took " + (end - start) + " milliseconds\n");
+        System.out.println("Dynamic solution took " + (end - start) + " milliseconds\n");*/
 
 
         // Brute Force Algorithm and Output
@@ -47,13 +49,13 @@ public class tcss343 {
 
 
         // Divide and Conquer Algorithm and Output
-        start = System.currentTimeMillis();
+        /*start = System.currentTimeMillis();
         int[] minCost = divide(0);
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
         end = System.currentTimeMillis();
-        System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");
+        System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");*/
     }
 
     private static int getSize(String fileName) {
@@ -103,7 +105,7 @@ public class tcss343 {
                     i++;
                 }
 
-                while (!isValidInput(message.charAt(end))) end++;
+                while (end < message.length() && !isValidInput(message.charAt(end))) end++;
                 start = end;
 
             }
@@ -151,9 +153,8 @@ public class tcss343 {
             startingSet.add(i);
         }
 
-//        Set<Set<Integer>> setsOSets = getPowerSet(startingSet);                 /* Gets the set of sets. */
-        Set<TreeSet<Integer>> setsOSets = getPowerSetIterative(startingSet);
-        //System.out.println("Sets generated");
+        Set<TreeSet<Integer>> setsOSets = getPowerSetIterative(startingSet);    /* Get the power set*/
+
         System.out.println("Brute Force Algorithm");
         for(Set<Integer> currSet : setsOSets) {
             Integer pathSum = 0;                                                /* Total cost for this path. */
@@ -371,7 +372,7 @@ public class tcss343 {
      */
     public static void generateFile(final int theDim) {
         String filename = "" + theDim + "input.txt";
-        BufferedWriter out = null;
+        BufferedWriter out;
         int base = 2;
         try {
             out = new BufferedWriter(new FileWriter(filename));
@@ -411,7 +412,9 @@ public class tcss343 {
             Set<TreeSet<Integer>> newSet = new HashSet<>();         //current set to replace the powerset
 
             for (TreeSet<Integer> subset : powerSet) {              //for every subset in the powerset so far
-                newSet.add(subset);                                 //add the succrent subset to the new powerset
+                if (subset.contains(1) || subset.contains(n-1)) {
+                    newSet.add(subset);                            //add the current subset to the new powerset
+                }
 
                 TreeSet<Integer> newSubset = new TreeSet<>(subset); //Copy the current subset
                 newSubset.add(currentInt);                          //and add the current int to it
