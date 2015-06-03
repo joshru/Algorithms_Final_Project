@@ -14,7 +14,7 @@ import java.util.*;
 public class tcss343 {
     //test comment
     public static final Random r = new Random();
-    public static int N = 100;
+    public static int N = 30;
     public static Integer[][] prices;
 
     public static void main(String[] args) {
@@ -37,20 +37,21 @@ public class tcss343 {
         System.out.println("Dynamic solution took " + (end - start) + " milliseconds");
 
         start = System.currentTimeMillis();
-        int[] arr = new int[N + 1];
+      //  int[] arr = new int[N + 1];
 
 
-        dynamic();
        // int[] minCost = divide(arr[0]);
 
-        int[] minCost = divide(arr[0]);
+        //int[] minCost = divide(0);
+        int minCost = BrandonDivide(0);
+        System.out.printf("New divide and conquer result: %d\n", minCost);
 
 //        System.out.println(Arrays.toString(minCost));
 //        Display the minimum set.
-        String minPathDivide = buildDividePath(minCost);
+       /* String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();
+        System.out.println();*/
         end = System.currentTimeMillis();
         System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");
     }
@@ -186,9 +187,7 @@ public class tcss343 {
                 if (curVal < minVal) {
                     minVal = curVal;
                     minJ = j;
-//                    for (int k = 0; k < arr.length; k++) {
-//                        arr[k] = curArr[k];
-//                    }
+
                     System.arraycopy(curArr, 0, arr, 0, arr.length); //O(n)
                 }
             }
@@ -199,6 +198,22 @@ public class tcss343 {
         arr[i + 1] = minJ + 1;
         //System.out.println("i: " + (i + 1) + ", j: " + (minJ + 1) + ", return value: " + retVal);
         return arr;
+    }
+
+    public static int BrandonDivide(int i) {
+        int minPath = 0, j;
+        //int[] solArr = new int[N+1];
+        int minValue = Integer.MAX_VALUE;
+
+        if (i == N-1) return 0;
+
+        for (j = i + 1; j < N; j++) {
+            int curVal = prices[i][j] + BrandonDivide(j);
+            if (curVal < minValue) minValue = curVal;
+        }
+        //solArr[i] = minValue;
+
+        return minValue;
     }
 
 
