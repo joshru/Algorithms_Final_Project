@@ -36,14 +36,14 @@ public class tcss343 {
         start = System.currentTimeMillis();
         dynamic();
         end = System.currentTimeMillis();
-        System.out.println("Dynamic solution took " + (end - start) + " milliseconds");
+        System.out.println("Dynamic solution took " + (end - start) + " milliseconds\n");
 
 
         // Brute Force Algorithm and Output
         start = System.currentTimeMillis();
         brute();
         end = System.currentTimeMillis();
-        System.out.println("Brute force solution took " + (end - start) + " milliseconds");
+        System.out.println("Brute force solution took " + (end - start) + " milliseconds\n");
 
 
         // Divide and Conquer Algorithm and Output
@@ -52,7 +52,6 @@ public class tcss343 {
         String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();
         end = System.currentTimeMillis();
         System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");
     }
@@ -177,7 +176,6 @@ public class tcss343 {
 
         /* Display the minimum set. */
         System.out.println("Minimum path: " + minSet.toString() + ", Minimum cost: " + minVal);
-        System.out.println();
     }
 
     /**
@@ -298,7 +296,6 @@ public class tcss343 {
         */
 
         System.out.println("Minimum path: " + recover(solutionArr).toString() + ", Minimum cost: " + solutionArr[n - 1][n - 1]);
-        System.out.println();
     }
 
     /**
@@ -451,7 +448,6 @@ public class tcss343 {
             }
             powerSet = newSet;
         }
-        System.out.println("Subsets generated.");
         return powerSet;
 
     }
