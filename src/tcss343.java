@@ -1,6 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.*;
@@ -12,18 +10,25 @@ import java.util.*;
  * @author Josh Rueschenberg
  */
 public class tcss343 {
-    //test comment
     public static final Random r = new Random();
-    public static int N = 30;
+    public static int n;
     public static Integer[][] prices;
 
     public static void main(String[] args) {
-        prices = new Integer[N][N];
+        String fileName;
+        if(args.length > 0) {
+            fileName = args[0];
+           n = getSize(fileName);
+            System.out.println("File size: " + n);
+        } else {
+            System.out.println("No input file given.");
+            return;
+        }
 
-//        n = N;//prices[0].length;                          /* Gets the n size of the set. */
+        prices = new Integer[n][n];
 
         System.out.println("Array obtained from file");
-        readFile();
+        readFile(fileName);
 
         long start = System.currentTimeMillis();
         long end;
@@ -56,9 +61,22 @@ public class tcss343 {
         System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");
     }
 
-    private static void readFile() {
+    private static int getSize(String fileName) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(fileName));
+            int lines = 0;
+            while (reader.readLine() != null) lines++;
+            reader.close();
+            return lines;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    private static void readFile(String fileName) {
         FileReader inputStream = null;
-        String fileName = "" + N + "input.txt";
         try {
             inputStream = new FileReader(fileName);
             int c;
@@ -85,7 +103,7 @@ public class tcss343 {
                 }
                 j++;
 
-                if (j == N) {
+                if (j == n) {
                     j = 0;
                     i++;
                 }
@@ -100,7 +118,7 @@ public class tcss343 {
         } catch (Exception e) {
 
         }
-        prices[N-1][N-1] = 0;
+        prices[n-1][n-1] = 0;
 
     }
 
@@ -174,13 +192,13 @@ public class tcss343 {
         int retVal = 0;
         int minVal = Integer.MAX_VALUE;
         int minJ = Integer.MAX_VALUE;
-        int[] arr = new int[N + 1];
+        int[] arr = new int[n + 1];
 
-        if(i == N - 1) {        /* BASE CASE */
+        if(i == n - 1) {        /* BASE CASE */
             arr[0] = 0;
             return arr;
         } else {
-            for(int j = i + 1; j < N; j++) {
+            for(int j = i + 1; j < n; j++) {
                 int[] curArr = divide(j);
                 int curVal = curArr[0] + prices[i][j];
 
@@ -205,9 +223,9 @@ public class tcss343 {
         //int[] solArr = new int[N+1];
         int minValue = Integer.MAX_VALUE;
 
-        if (i == N-1) return 0;
+        if (i == n-1) return 0;
 
-        for (j = i + 1; j < N; j++) {
+        for (j = i + 1; j < n; j++) {
             int curVal = prices[i][j] + BrandonDivide(j);
             if (curVal < minValue) minValue = curVal;
         }
@@ -330,12 +348,9 @@ public class tcss343 {
                         min = solutionArr[row][i];
                         minIndex = i;
                     }
-
                 }
-
                 winSet.add(minIndex + 1);
                 col = minIndex; //go back one column and restart the loop
-
             }
         }
       //  System.out.printf("Winning indexes = %s\n", winSet.toString());
@@ -406,14 +421,14 @@ public class tcss343 {
             return setsOSets;
         }
 
-        List<Integer> list = new ArrayList<>(theStartingSet);                /* Convert to list for index access. */
+        List<Integer> list = new ArrayList<>(theStartingSet);                       /* Convert to list for index access. */
         Integer first = list.get(0);                                                /* Get the first value of the set. */
-        Set<Integer> rest = new HashSet<>(list.subList(1, list.size()));     /* Get the rest of the set. */
+        Set<Integer> rest = new HashSet<>(list.subList(1, list.size()));            /* Get the rest of the set. */
 
 
         for (Set<Integer> currentSet : getPowerSet(rest)) {                         /* For each set within sets. */
 
-            Set<Integer> newSet = new HashSet<>();                           /* Create a new set to store the data. */
+            Set<Integer> newSet = new HashSet<>();                                  /* Create a new set to store the data. */
             newSet.add(first);                                                      /* Add the first element. */
             newSet.addAll(currentSet);                                              /* Add the rest of the elements. */
             setsOSets.add(newSet);                                                  /* Add the new set to our set of sets. */
