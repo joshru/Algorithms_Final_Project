@@ -15,48 +15,44 @@ public class tcss343 {
     public static Integer[][] prices;
 
     public static void main(String[] args) {
-        String fileName;
+        long start, end;                /* Values used to store the start and end time for the algorithms. */
+        String fileName;                /* The filename to read in. */
+
+        // Get the fileName from the terminal or else return and exit.
         if(args.length > 0) {
             fileName = args[0];
            n = getSize(fileName);
-            System.out.println("File size: " + n);
+            System.out.println("File succesfully read in, File size: " + n);
         } else {
             System.out.println("No input file given.");
             return;
         }
 
+        // Instantiate the prices array given the file size.
         prices = new Integer[n][n];
+        setPrices(fileName);
 
-        System.out.println("Array obtained from file");
-        readFile(fileName);
-
-        long start = System.currentTimeMillis();
-        long end;
-     //   brute();
-        //end = System.currentTimeMillis();
-       // System.out.println("Brute Force solution took " + (end - start) + " milliseconds");
-
+        // Dynamic Algorithm and Output
         start = System.currentTimeMillis();
         dynamic();
         end = System.currentTimeMillis();
         System.out.println("Dynamic solution took " + (end - start) + " milliseconds");
 
+
+        // Brute Force Algorithm and Output
         start = System.currentTimeMillis();
-      //  int[] arr = new int[N + 1];
+        brute();
+        end = System.currentTimeMillis();
+        System.out.println("Brute force solution took " + (end - start) + " milliseconds");
 
 
-       // int[] minCost = divide(arr[0]);
-
-        //int[] minCost = divide(0);
-        int minCost = BrandonDivide(0);
-        System.out.printf("New divide and conquer result: %d\n", minCost);
-
-//        System.out.println(Arrays.toString(minCost));
-//        Display the minimum set.
-       /* String minPathDivide = buildDividePath(minCost);
+        // Divide and Conquer Algorithm and Output
+        start = System.currentTimeMillis();
+        int[] minCost = divide(0);
+        String minPathDivide = buildDividePath(minCost);
         System.out.println("Divide and Conquer Algorithm");
         System.out.println("Minimum Path: " + minPathDivide + ", Minimum cost: " + minCost[0]);
-        System.out.println();*/
+        System.out.println();
         end = System.currentTimeMillis();
         System.out.println("Divide and conquer solution took " + (end - start) + " milliseconds");
     }
@@ -75,7 +71,7 @@ public class tcss343 {
         return -1;
     }
 
-    private static void readFile(String fileName) {
+    private static void setPrices(String fileName) {
         FileReader inputStream = null;
         try {
             inputStream = new FileReader(fileName);
